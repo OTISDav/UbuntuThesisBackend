@@ -102,9 +102,15 @@ REST_FRAMEWORK = {
 
 import dj_database_url
 
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default="postgresql://otis:Dhk7BxPBhqZyC7VtNWRLWHmOgCLJrGM9@dpg-cue86sl2ng1s7384jlvg-a/thesisfinder_db"
+#     )
+# }
 DATABASES = {
     'default': dj_database_url.config(
-        default="postgresql://otis:Dhk7BxPBhqZyC7VtNWRLWHmOgCLJrGM9@dpg-cue86sl2ng1s7384jlvg-a/thesisfinder_db"
+        default='postgresql://otis:Dhk7BxPBhqZyC7VtNWRLWHmOgCLJrGM9@dpg-cue86sl2ng1s7384jlvg-a/thesisfinder_db',
+        conn_max_age=600
     )
 }
 
