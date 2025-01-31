@@ -25,7 +25,11 @@ SECRET_KEY = 'django-insecure-3z8uth0(j!24jefsdx!j8-&qu3ppzsn=xtycanqant+2do9dyf
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["render.com"]
+ALLOWED_HOSTS = [
+    "https://ubuntuthesisbackend.onrender.com",  # Remplace par ton URL Render
+    "localhost",
+    "127.0.0.1"
+]
 
 
 # Application definition
