@@ -9,11 +9,13 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+SECRET_KEY = config('SECRET_KEY')
 
 
 # Quick-start development settings - unsuitable for production
@@ -61,6 +63,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'thesisfinder.urls'
@@ -107,11 +110,15 @@ import dj_database_url
 #         default="postgresql://otis:Dhk7BxPBhqZyC7VtNWRLWHmOgCLJrGM9@dpg-cue86sl2ng1s7384jlvg-a/thesisfinder_db"
 #     )
 # }
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default='postgresql://otis:Dhk7BxPBhqZyC7VtNWRLWHmOgCLJrGM9@dpg-cue86sl2ng1s7384jlvg-a/thesisfinder_db',
+#         conn_max_age=600
+#     )
+# }
+
 DATABASES = {
-    'default': dj_database_url.config(
-        default='postgresql://otis:Dhk7BxPBhqZyC7VtNWRLWHmOgCLJrGM9@dpg-cue86sl2ng1s7384jlvg-a/thesisfinder_db',
-        conn_max_age=600
-    )
+    'default': dj_database_url.parse(config('DATABASE_URL'))
 }
 
 
@@ -162,6 +169,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
+if not DEBUG:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
