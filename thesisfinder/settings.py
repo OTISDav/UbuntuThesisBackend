@@ -100,16 +100,25 @@ REST_FRAMEWORK = {
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'render',  # Nom de la base de données
-        'USER': 'postgres',  # Nom d'utilisateur
-        'PASSWORD': 'Otis2003',  # Mot de passe
-        'HOST': 'localhost',  # Host de la base de données
-        'PORT': '5432',  # Port
-    }
+    'default': dj_database_url.config(
+        default="postgresql://otis:Dhk7BxPBhqZyC7VtNWRLWHmOgCLJrGM9@dpg-cue86sl2ng1s7384jlvg-a/thesisfinder_db"
+    )
 }
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'render',  # Nom de la base de données
+#         'USER': 'postgres',  # Nom d'utilisateur
+#         'PASSWORD': 'Otis2003',  # Mot de passe
+#         'HOST': 'localhost',  # Host de la base de données
+#         'PORT': '5432',  # Port
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
