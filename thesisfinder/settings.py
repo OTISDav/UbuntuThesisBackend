@@ -103,7 +103,7 @@ REST_FRAMEWORK = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'thesis',  # Nom de la base de données
+        'NAME': 'render',  # Nom de la base de données
         'USER': 'postgres',  # Nom d'utilisateur
         'PASSWORD': 'Otis2003',  # Mot de passe
         'HOST': 'localhost',  # Host de la base de données
