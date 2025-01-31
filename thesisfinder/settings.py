@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-3z8uth0(j!24jefsdx!j8-&qu3ppzsn=xtycanqant+2do9dyf'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     "ubuntuthesisbackend.onrender.com",  # Remplace par ton URL Render
