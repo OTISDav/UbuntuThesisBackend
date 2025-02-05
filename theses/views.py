@@ -87,7 +87,7 @@ class SuggestionsView(viewsets.ViewSet):
 
 def download_file(request, file_name):
     # Remplacer `uploads/` par le dossier où tu stockes tes fichiers.
-    file_path = os.path.join(settings.MEDIA_ROOT, 'uploads', file_name)
+    file_path = os.path.join(settings.MEDIA_ROOT, 'document', file_name)
 
     # Vérifier si le fichier existe
     if os.path.exists(file_path):
