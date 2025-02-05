@@ -6,9 +6,6 @@ from .models import Thesis, Favorite, Annotation
 from .serializers import ThesisSerializer, FavoriteSerializer, AnnotationSerializer
 from celery import shared_task
 from rest_framework.permissions import IsAuthenticated
-from django.http import FileResponse
-from django.conf import settings
-import os
 
 
 class ThesisViewSet(viewsets.ModelViewSet):
@@ -85,16 +82,7 @@ class SuggestionsView(viewsets.ViewSet):
 
 # tâches Celery
 
-def download_file(request, file_name):
-    # Remplacer `uploads/` par le dossier où tu stockes tes fichiers.
-    file_path = os.path.join(settings.MEDIA_ROOT, 'document', file_name)
 
-    # Vérifier si le fichier existe
-    if os.path.exists(file_path):
-        return FileResponse(open(file_path, 'rb'), as_attachment=True, filename=file_name)
-    else:
-        # Si le fichier n'existe pas, renvoie une erreur 404
-        raise Http404("File not found")
 
 
 
