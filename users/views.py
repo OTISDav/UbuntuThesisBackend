@@ -9,6 +9,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from .models import NotificationPreference
 from .serializers import NotificationPreferenceSerializer, ProfileSerializer
+from rest_framework import generics
+
 
 
 

@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.contrib.auth import get_user_model
@@ -12,7 +13,7 @@ class CustomUser(AbstractUser):
 User = get_user_model()
 
 class Profile(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='profile')
     email = models.EmailField(max_length=100, blank=True, null=True)
     profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
 
@@ -20,7 +21,7 @@ class Profile(models.Model):
         return f'Profile de {self.user.username}'
 
 class NotificationPreference(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     notify_on_new_theses = models.BooleanField(default=True)
     notify_on_updates = models.BooleanField(default=True)
 
