@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from .models import NotificationPreference
-from .serializers import NotificationPreferenceSerializer
+from .serializers import NotificationPreferenceSerializer, ProfileSerializer
 
 
 
@@ -51,6 +51,17 @@ class LogoutView(APIView):
             return Response({'message': 'Successfully logged out'}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ProfileDetailView(generics.RetrieveAPIView):
+    serializer_class = ProfileSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        user = self.request.user
+        profile, created = Profile.objects.get_or_create(user=user)
+        return profile
+
 
 class NotificationPreferenceView(APIView):
     permission_classes = [IsAuthenticated]
