@@ -10,6 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 from .models import NotificationPreference
 from .serializers import NotificationPreferenceSerializer, ProfileSerializer
 from rest_framework import generics
+from .models import Profile
 
 
 
