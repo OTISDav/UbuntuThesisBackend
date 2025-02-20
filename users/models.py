@@ -11,6 +11,14 @@ class CustomUser(AbstractUser):
 
 User = get_user_model()
 
+class Profile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    email = models.EmailField(max_length=100, blank=True, null=True)
+    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
+
+    def __str__(self):
+        return f'Profile de {self.user.username}'
+
 class NotificationPreference(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     notify_on_new_theses = models.BooleanField(default=True)
