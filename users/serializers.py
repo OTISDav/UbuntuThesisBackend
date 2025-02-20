@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from .models import NotificationPreference
+from .models import NotificationPreference, Profile
 
 User = get_user_model()
 
@@ -22,6 +22,21 @@ class RegisterSerializer(serializers.ModelSerializer):
             password=validated_data['password']
         )
         return user
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    username = serializers.SerializerMethodField()
+    email = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Profile
+        fields = ['username', 'email', 'profile_picture']
+
+    def get_username(self, obj):
+        return obj.user.username
+
+    def get_email(self, obj):
+        return obj.user.email
 
 class NotificationPreferenceSerializer(serializers.ModelSerializer):
     class Meta:
