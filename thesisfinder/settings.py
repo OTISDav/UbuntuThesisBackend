@@ -128,10 +128,30 @@ import dj_database_url
 #     )
 # }
 
-DATABASES = {
-    'default': dj_database_url.parse(config('DATABASE_URL'))
-}
+#DATABASES = {
+ #   'default': dj_database_url.parse(config('DATABASE_URL'))
+#}
 
+# Add these at the top of your settings.py
+import os
+from dotenv import load_dotenv
+from urllib.parse import urlparse
+
+load_dotenv()
+
+# Replace the DATABASES section of your settings.py with this
+tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': tmpPostgres.path.replace('/', ''),
+        'USER': tmpPostgres.username,
+        'PASSWORD': tmpPostgres.password,
+        'HOST': tmpPostgres.hostname,
+        'PORT': 5432,
+    }
+}
 
 
 # DATABASES = {
@@ -195,4 +215,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
+
+import os
+
+STATIC_URL = '/static/'
+
+# Ajoute cette ligne :
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
