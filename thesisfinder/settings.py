@@ -135,18 +135,20 @@ import dj_database_url
 # Add these at the top of your settings.py
 
 
+
 from urllib.parse import urlparse
+import os
 
 tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': tmpPostgres.path.decode().replace('/', ''),
+        'NAME': tmpPostgres.path.decode().replace('/', ''),  # Assurez-vous que cela est correct
         'USER': tmpPostgres.username,
         'PASSWORD': tmpPostgres.password,
         'HOST': tmpPostgres.hostname,
-        'PORT': 5432,
+        'PORT': 5432,  # Vérifiez si c'est le bon port pour votre PostgreSQL
     }
 }
 
