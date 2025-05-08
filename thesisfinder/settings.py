@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django_filters',
     'users',
     'theses',
+    'documents',
     'corsheaders',
 ]
 
