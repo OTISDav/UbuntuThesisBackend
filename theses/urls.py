@@ -5,7 +5,6 @@ from .views import (
     FavoriteViewSet,
     AnnotationViewSet,
     SuggestionsView,
-    MemoireDownloadView  # Importez votre vue de téléchargement
 )
 
 router = DefaultRouter()
