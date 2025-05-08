@@ -16,5 +16,4 @@ urlpatterns = [
     path('', include(router.urls)),
     path('suggestions/', SuggestionsView.as_view({'get': 'list'}), name='suggestions'),
     # ✅ Ajoutez explicitement la route pour le téléchargement
-    path('memoire/download/<int:pk>/', MemoireDownloadView.as_view(), name='memoire-download'),
 ]
