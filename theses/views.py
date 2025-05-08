@@ -82,6 +82,36 @@ class SuggestionsView(viewsets.ViewSet):
 
 # tâches Celery
 
+from django.http import FileResponse, Http404
+from rest_framework.views import APIView
+from .models import Thesis
+import os
+from django.conf import settings
+
+class MemoireDownloadView(APIView):
+    def get(self, request, pk):
+        try:
+            thesis = Thesis.objects.get(pk=pk)
+            file_path = thesis.document.path
+            if os.path.exists(file_path):
+                response = FileResponse(open(file_path, 'rb'), content_type='application/pdf')
+                response['Content-Disposition'] = f'attachment; filename="{thesis.title}.pdf"'
+                return response
+            else:
+                raise Http404("Fichier non trouvé sur le serveur.")
+        except Thesis.DoesNotExist:
+            raise Http404("Mémoire non trouvé.")
+
+    def post(self, request, pk):
+        try:
+            thesis = Thesis.objects.get(pk=pk)
+            # Logique pour enregistrer le téléchargement (peut-être un modèle DownloadLog)
+            # Pour l'instant, on se contente d'un print
+            print(f"Téléchargement enregistré pour le mémoire ID: {thesis.id}, Titre: {thesis.title}, Utilisateur (non implémenté ici)")
+            return Response({'message': 'Téléchargement enregistré avec succès.'}, status=200)
+        except Thesis.DoesNotExist:
+            return Response({'error': 'Mémoire non trouvé.'}, status=404)
+
 
 
 
