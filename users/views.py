@@ -1,19 +1,21 @@
 from rest_framework import status
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.contrib.auth import authenticate
-from .serializers import RegisterSerializer
-from django.contrib.auth import get_user_model
+from django.contrib.auth import authenticate, update_session_auth_hash
+from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from .models import NotificationPreference
-from .serializers import NotificationPreferenceSerializer, ProfileSerializer
 from rest_framework import generics
-from .models import Profile
-
-
-
+from django.contrib.auth import get_user_model
+from django.contrib.auth.hashers import make_password
+from .models import NotificationPreference, Profile
+from .serializers import (
+    RegisterSerializer,
+    NotificationPreferenceSerializer,
+    ProfileSerializer,
+    ChangePasswordSerializer,
+    UpdateProfileSerializer,
+)
 
 User = get_user_model()
 
@@ -80,4 +82,26 @@ class NotificationPreferenceView(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-        return Response(serializer.errors, status=400)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ChangePasswordView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = ChangePasswordSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.update(request.user, serializer.validated_data)
+            update_session_auth_hash(request, request.user)  # Important pour garder l'utilisateur connecté
+            return Response({'message': 'Mot de passe changé avec succès.'}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class UpdateProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request):
+        profile = get_object_or_404(Profile, user=request.user)
+        serializer = UpdateProfileSerializer(profile, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(ProfileSerializer(profile).data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

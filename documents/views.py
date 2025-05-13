@@ -3,6 +3,7 @@ from django.views import View
 import os
 from django.conf import settings
 
+
 class DownloadDocumentView(View):
     def get(self, request, filename):
         filepath = os.path.join(settings.MEDIA_ROOT, 'documents', filename)
