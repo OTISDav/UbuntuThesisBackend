@@ -8,6 +8,9 @@ from celery import shared_task
 from rest_framework.permissions import IsAuthenticated
 from django.http import FileResponse, Http404
 from rest_framework.views import APIView
+from cloudinary.utils import cloudinary_url
+from cloudinary.uploader import upload
+
 import os
 
 
@@ -19,6 +22,19 @@ class ThesisViewSet(viewsets.ModelViewSet):
     filterset_fields = ['field_of_study', 'year']
     search_fields = ['title', 'author', 'summary']
     ordering_fields = ['created_at', 'year']
+
+    def perform_create(self, serializer):
+        file = self.request.FILES.get("file")
+        if file:
+            result = upload(
+                file,
+                resource_type="raw",  # Pour PDF
+                folder="documents/"
+            )
+            file_url = result["secure_url"]
+            serializer.save(author=self.request.user, file=file_url)
+        else:
+            serializer.save(author=self.request.user)
 
 
 class FavoriteViewSet(viewsets.ModelViewSet):

@@ -124,7 +124,8 @@ cloudinary.config(
   cloud_name = 'dkk95mjgt',
   api_key = '956771579914482',
   api_secret = 'TX4keeAJMpMDTAPQoySzg4qDnxs',
-  secure = True
+  secure = True,
+
 )
 
 # Internationalisation
