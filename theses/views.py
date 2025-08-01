@@ -8,6 +8,9 @@ from celery import shared_task
 from rest_framework.permissions import IsAuthenticated
 from django.http import FileResponse, Http404
 from rest_framework.views import APIView
+from django.core.exceptions import ValidationError
+from rest_framework.parsers import MultiPartParser
+from cloudinary.uploader import upload
 import os
 
 
@@ -19,6 +22,22 @@ class ThesisViewSet(viewsets.ModelViewSet):
     filterset_fields = ['field_of_study', 'year']
     search_fields = ['title', 'author', 'summary']
     ordering_fields = ['created_at', 'year']
+
+    def perform_create(self, serializer):
+        document = self.request.FILES.get("document")  # correspond à la clé dans Flutter
+
+        if not document:
+            raise ValidationError({"document": "Aucun fichier PDF reçu."})
+
+        # Upload Cloudinary
+        result = upload(document, resource_type="raw", folder="documents/")
+        file_url = result.get("secure_url")
+
+        if not file_url:
+            raise ValidationError({"file": "Échec de l'envoi à Cloudinary."})
+
+        # Sauvegarde avec l’URL Cloudinary
+        serializer.save(author=self.request.user, file=file_url)
 
 
 class FavoriteViewSet(viewsets.ModelViewSet):
@@ -61,6 +80,7 @@ class AnnotationViewSet(viewsets.ModelViewSet):
     def user_annotations(self, request):
         annotations = Annotation.objects.filter(user=request.user)
         serializer = self.get_serializer(annotations, many=True)
+        parser_classes = [MultiPartParser]
         return Response(serializer.data)
 
     @action(detail=True, methods=['put'])

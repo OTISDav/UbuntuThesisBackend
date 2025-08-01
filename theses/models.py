@@ -1,11 +1,14 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from cloudinary.models import CloudinaryField
+
 
 class Thesis(models.Model):
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
     summary = models.TextField()
-    document = models.FileField(upload_to='documents')
+    # document = models.FileField(upload_to='documents')
+    document = CloudinaryField(resource_type="raw")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     field_of_study = models.CharField(max_length=100)
