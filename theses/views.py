@@ -14,27 +14,6 @@ from cloudinary.uploader import upload
 import os
 
 
-#
-# class ThesisViewSet(viewsets.ModelViewSet):
-#     queryset = Thesis.objects.all()
-#     serializer_class = ThesisSerializer
-#     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-#     filterset_fields = ['field_of_study', 'year']
-#     search_fields = ['title', 'author', 'summary']
-#     ordering_fields = ['created_at', 'year']
-#
-#     def perform_create(self, serializer):
-#         file = self.request.FILES.get("file")
-#         if file:
-#             result = upload(
-#                 file,
-#                 resource_type="raw",  # Pour PDF
-#                 folder="documents/"
-#             )
-#             file_url = result["secure_url"]
-#             serializer.save(author=self.request.user, file=file_url)
-#         else:
-#             serializer.save(author=self.request.user)
 
 class ThesisViewSet(viewsets.ModelViewSet):
     queryset = Thesis.objects.all()
@@ -43,21 +22,20 @@ class ThesisViewSet(viewsets.ModelViewSet):
     filterset_fields = ['field_of_study', 'year']
     search_fields = ['title', 'author', 'summary']
     ordering_fields = ['created_at', 'year']
-    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
-        file = self.request.FILES.get("file")
+        file = self.request.FILES.get("document")
         if file:
             result = upload(
                 file,
-                resource_type="raw",
-                folder="documents/",
-                type="upload"
+                resource_type="raw",  # Pour PDF
+                folder="documents/"
             )
             file_url = result["secure_url"]
             serializer.save(author=self.request.user, file=file_url)
         else:
             serializer.save(author=self.request.user)
+
 
 class FavoriteViewSet(viewsets.ModelViewSet):
     serializer_class = FavoriteSerializer
