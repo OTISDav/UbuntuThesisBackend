@@ -23,18 +23,7 @@ class ThesisViewSet(viewsets.ModelViewSet):
     search_fields = ['title', 'author', 'summary']
     ordering_fields = ['created_at', 'year']
 
-    def perform_create(self, serializer):
-        file = self.request.FILES.get("document")
-        if file:
-            result = upload(
-                file,
-                resource_type="raw",  # Pour PDF
-                folder="documents/"
-            )
-            file_url = result["secure_url"]
-            serializer.save(author=self.request.user, file=file_url)
-        else:
-            serializer.save(author=self.request.user)
+
 
 
 class FavoriteViewSet(viewsets.ModelViewSet):
