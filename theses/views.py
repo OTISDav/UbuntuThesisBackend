@@ -15,15 +15,44 @@ import os
 
 
 
+# class ThesisViewSet(viewsets.ModelViewSet):
+#     queryset = Thesis.objects.all()
+#     serializer_class = ThesisSerializer
+#     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+#     filterset_fields = ['field_of_study', 'year']
+#     search_fields = ['title', 'author', 'summary']
+#     ordering_fields = ['created_at', 'year']
+#
+#
+
+
+from cloudinary.uploader import upload
+from rest_framework.parsers import MultiPartParser
+from rest_framework.exceptions import ValidationError
+
+
 class ThesisViewSet(viewsets.ModelViewSet):
     queryset = Thesis.objects.all()
     serializer_class = ThesisSerializer
+    permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser]  # 🔥 pour gérer l'upload de fichier
+
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['field_of_study', 'year']
     search_fields = ['title', 'author', 'summary']
     ordering_fields = ['created_at', 'year']
 
+    def perform_create(self, serializer):
+        file = self.request.FILES.get("document")  # 🔑 Correspond à la clé dans Flutter : "document"
+        if not file:
+            raise ValidationError({"document": "Aucun fichier PDF reçu."})
 
+        # 📤 Upload du fichier PDF sur Cloudinary
+        result = upload(file, resource_type="raw", folder="documents/")
+        file_url = result.get("secure_url")
+
+        # 💾 Sauvegarde du document avec l'URL du fichier
+        serializer.save(author=self.request.user, file=file_url)
 
 
 class FavoriteViewSet(viewsets.ModelViewSet):
