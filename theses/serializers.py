@@ -2,11 +2,11 @@ from .models import Thesis, Favorite, Annotation
 from rest_framework import serializers
 
 class ThesisSerializer(serializers.ModelSerializer):
-    file = serializers.URLField(required=False)
-
     class Meta:
         model = Thesis
         fields = '__all__'
+
+
 
 class FavoriteSerializer(serializers.ModelSerializer):
     class Meta:
