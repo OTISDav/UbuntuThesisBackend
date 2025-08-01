@@ -30,7 +30,7 @@ class ThesisViewSet(viewsets.ModelViewSet):
             raise ValidationError({"document": "Aucun fichier PDF reçu."})
 
         # Upload Cloudinary
-        result = upload(document, resource_type="raw", folder="documents/")
+        result = upload(document, resource_type="raw", folder="documents/", access_mode="public")
         file_url = result.get("secure_url")
 
         if not file_url:
