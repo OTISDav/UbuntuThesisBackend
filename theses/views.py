@@ -34,10 +34,10 @@ class ThesisViewSet(viewsets.ModelViewSet):
         file_url = result.get("secure_url")
 
         if not file_url:
-            raise ValidationError({"file": "Échec de l'envoi à Cloudinary."})
+            raise ValidationError({"document": "Échec de l'envoi à Cloudinary."})
 
         # Sauvegarde avec l’URL Cloudinary
-        serializer.save(author=self.request.user, file=file_url)
+        serializer.save(author=self.request.user, document=file_url)
 
 
 class FavoriteViewSet(viewsets.ModelViewSet):
