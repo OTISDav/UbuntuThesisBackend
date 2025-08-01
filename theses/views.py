@@ -42,16 +42,32 @@ class ThesisViewSet(viewsets.ModelViewSet):
     search_fields = ['title', 'author', 'summary']
     ordering_fields = ['created_at', 'year']
 
+    # def perform_create(self, serializer):
+    #     file = self.request.FILES.get("document")  # 🔑 Correspond à la clé dans Flutter : "document"
+    #     if not file:
+    #         raise ValidationError({"document": "Aucun fichier PDF reçu."})
+    #
+    #     # 📤 Upload du fichier PDF sur Cloudinary
+    #     result = upload(file, resource_type="raw", folder="documents/")
+    #     file_url = result.get("secure_url")
+    #
+    #     # 💾 Sauvegarde du document avec l'URL du fichier
+    #     serializer.save(author=self.request.user, file=file_url)
+
     def perform_create(self, serializer):
-        file = self.request.FILES.get("document")  # 🔑 Correspond à la clé dans Flutter : "document"
+        file = self.request.FILES.get("document")  # correspond à la clé dans Flutter
+
         if not file:
             raise ValidationError({"document": "Aucun fichier PDF reçu."})
 
-        # 📤 Upload du fichier PDF sur Cloudinary
+        # Upload Cloudinary
         result = upload(file, resource_type="raw", folder="documents/")
         file_url = result.get("secure_url")
 
-        # 💾 Sauvegarde du document avec l'URL du fichier
+        if not file_url:
+            raise ValidationError({"file": "Échec de l'envoi à Cloudinary."})
+
+        # Sauvegarde avec l’URL Cloudinary
         serializer.save(author=self.request.user, file=file_url)
 
 
