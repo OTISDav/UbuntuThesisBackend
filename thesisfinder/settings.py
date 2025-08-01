@@ -33,6 +33,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'drf_yasg',
     'django_filters',
+    'cloudinary',
+    'cloudinary_storage',
     'users',
     'theses',
     'documents',
@@ -111,6 +113,15 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'Root',
+    'API_KEY': '627236966524115',
+    'API_SECRET': 'Gou6de0QoJAsPedUCsKzPIbErO4',
+}
+
 
 # Internationalisation
 LANGUAGE_CODE = 'en-us'

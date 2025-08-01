@@ -35,3 +35,4 @@ wcwidth==0.2.13
 whitenoise==6.8.2
 django-cors-headers
 
+
