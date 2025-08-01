@@ -5,6 +5,7 @@ from .views import (
     FavoriteViewSet,
     AnnotationViewSet,
     SuggestionsView,
+    ThesisDownloadView,
 )
 
 router = DefaultRouter()
@@ -14,6 +15,7 @@ router.register(r'annotations', AnnotationViewSet, basename='annotation')
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('download/<int:pk>/', ThesisDownloadView.as_view(), name='thesis-download'),
     path('suggestions/', SuggestionsView.as_view({'get': 'list'}), name='suggestions'),
     # ✅ Ajoutez explicitement la route pour le téléchargement
 ]

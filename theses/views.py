@@ -6,6 +6,10 @@ from .models import Thesis, Favorite, Annotation
 from .serializers import ThesisSerializer, FavoriteSerializer, AnnotationSerializer
 from celery import shared_task
 from rest_framework.permissions import IsAuthenticated
+from django.http import FileResponse, Http404
+from rest_framework.views import APIView
+import os
+
 
 
 class ThesisViewSet(viewsets.ModelViewSet):
@@ -80,4 +84,16 @@ class SuggestionsView(viewsets.ViewSet):
         serializer = ThesisSerializer(suggestions, many=True)
         return Response(serializer.data)
 
-# tâches Celery
+class ThesisDownloadView(APIView):
+    permission_classes = [IsAuthenticated]  # Facultatif si accès restreint
+
+    def get(self, request, pk):
+        try:
+            thesis = Thesis.objects.get(pk=pk)
+            file_path = thesis.file.path
+            if os.path.exists(file_path):
+                return FileResponse(open(file_path, 'rb'), as_attachment=True, filename=os.path.basename(file_path))
+            else:
+                raise Http404("Fichier non trouvé.")
+        except Thesis.DoesNotExist:
+            raise Http404("Thèse non trouvée.")
