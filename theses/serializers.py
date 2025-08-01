@@ -26,7 +26,8 @@ class ThesisSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Thesis
-        fields = '__all__' + ('download_url',)
+        fields = '__all__'  # ou fais une liste explicite
+        # fields = ['id', 'title', 'resume', 'file', ... 'download_url']
 
     def get_download_url(self, obj):
         request = self.context.get('request')
