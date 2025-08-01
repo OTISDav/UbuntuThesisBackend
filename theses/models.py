@@ -8,7 +8,7 @@ class Thesis(models.Model):
     summary = models.TextField()
     # document = CloudinaryField(resource_type="raw")
     # # document = CloudinaryField('documents')
-    file = models.URLField()
+    document = models.URLField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     field_of_study = models.CharField(max_length=100)
