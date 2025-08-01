@@ -7,6 +7,8 @@ import os
 from pathlib import Path
 from decouple import config
 import dj_database_url
+import cloudinary
+
 
 # Chemins de construction à l'intérieur du projet comme ceci : BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -118,12 +120,12 @@ AUTH_PASSWORD_VALIDATORS = [
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'Root',
-    'API_KEY': '627236966524115',
-    'API_SECRET': 'Gou6de0QoJAsPedUCsKzPIbErO4',
-}
-
+cloudinary.config(
+  cloud_name = 'Root',
+  api_key = '627236966524115',
+  api_secret = 'Gou6de0QoJAsPedUCsKzPIbErO4',
+  secure = True
+)
 
 # Internationalisation
 LANGUAGE_CODE = 'en-us'
