@@ -15,7 +15,7 @@ class ThesisSerializer(serializers.ModelSerializer):
 
     def get_document(self, obj):
         if obj.document:
-            return obj.document  # ici on renvoie l'URL complète
+            return obj.document.url  # ici on renvoie l'URL complète
         return None
 
 class FavoriteSerializer(serializers.ModelSerializer):

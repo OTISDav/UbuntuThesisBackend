@@ -116,7 +116,7 @@ class ThesisDownloadView(APIView):
 
     def get(self, request, pk):
         thesis = get_object_or_404(Thesis, pk=pk)
-        file_url = thesis.document  # déjà une URL Cloudinary
+        file_url = thesis.document.url  # déjà une URL Cloudinary
 
         if not file_url:
             raise Http404("Fichier non trouvé.")
