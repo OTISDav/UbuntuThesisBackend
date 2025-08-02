@@ -13,9 +13,18 @@ class ThesisSerializer(serializers.ModelSerializer):
         model = Thesis
         fields = '__all__'
 
+    # def get_document(self, obj):
+    #     if obj.document:
+    #         return obj.document.url  # ici on renvoie l'URL complète
+    #     return None
+
     def get_document(self, obj):
         if obj.document:
-            return obj.document.url  # ici on renvoie l'URL complète
+            # Si c'est déjà une string, on la renvoie telle quelle
+            if isinstance(obj.document, str):
+                return obj.document
+            # Sinon on retourne l'URL du fichier CloudinaryField
+            return obj.document.url
         return None
 
 class FavoriteSerializer(serializers.ModelSerializer):
