@@ -11,6 +11,8 @@ from rest_framework.views import APIView
 from django.core.exceptions import ValidationError
 from rest_framework.parsers import MultiPartParser
 from cloudinary.uploader import upload
+from django.shortcuts import get_object_or_404, redirect
+
 import os
 
 
@@ -105,15 +107,14 @@ class SuggestionsView(viewsets.ViewSet):
         return Response(serializer.data)
 
 class ThesisDownloadView(APIView):
-    permission_classes = [IsAuthenticated]  # Facultatif si accès restreint
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, pk):
-        try:
-            thesis = Thesis.objects.get(pk=pk)
-            file_path = thesis.file.path
-            if os.path.exists(file_path):
-                return FileResponse(open(file_path, 'rb'), as_attachment=True, filename=os.path.basename(file_path))
-            else:
-                raise Http404("Fichier non trouvé.")
-        except Thesis.DoesNotExist:
-            raise Http404("Thèse non trouvée.")
+        thesis = get_object_or_404(Thesis, pk=pk)
+        file_url = thesis.document.url  # CloudinaryField te donne l'URL ici
+
+        if not file_url:
+            raise Http404("Fichier non trouvé.")
+
+        return redirect(file_url)
+
