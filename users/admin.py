@@ -22,8 +22,11 @@ class ProfileAdmin(admin.ModelAdmin):
         return "-"
     profile_picture_display.short_description = 'Photo de profil'
 
+# @admin.register(NotificationPreference)
+# class NotificationPreferenceAdmin(admin.ModelAdmin):
+#     list_display = ('user', 'email_notifications', 'push_notifications', 'sms_notifications')
+#     search_fields = ('user__username', 'user__email')
+
 @admin.register(NotificationPreference)
 class NotificationPreferenceAdmin(admin.ModelAdmin):
-    list_display = ('user', 'email_notifications', 'push_notifications', 'sms_notifications')
-    search_fields = ('user__username', 'user__email')
-
+    list_display = ['user', 'notify_on_new_theses', 'notify_on_updates']
