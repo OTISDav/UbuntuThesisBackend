@@ -18,14 +18,20 @@ class ThesisSerializer(serializers.ModelSerializer):
     #         return obj.document.url  # ici on renvoie l'URL complète
     #     return None
 
+    # def get_document(self, obj):
+    #     if obj.document:
+    #         # Si c'est déjà une string, on la renvoie telle quelle
+    #         if isinstance(obj.document, str):
+    #             return obj.document
+    #         # Sinon on retourne l'URL du fichier CloudinaryField
+    #         return obj.document.url
+    #     return None
+
     def get_document(self, obj):
-        if obj.document:
-            # Si c'est déjà une string, on la renvoie telle quelle
-            if isinstance(obj.document, str):
-                return obj.document
-            # Sinon on retourne l'URL du fichier CloudinaryField
-            return obj.document.url
-        return None
+        url = obj.document
+        if url and not url.endswith('.pdf'):
+            url += '.pdf'  # ajoute l'extension .pdf
+        return url
 
 class FavoriteSerializer(serializers.ModelSerializer):
     class Meta:
