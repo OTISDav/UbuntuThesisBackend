@@ -33,12 +33,17 @@ class ThesisViewSet(viewsets.ModelViewSet):
 
         ext = os.path.splitext(document.name)[1]  # ex: '.pdf', '.docx'
         # Générer un nom unique, ici avec timestamp et user id (personnalise comme tu veux)
-        public_id = f"documents/{self.request.user.id}_{int(time.time())}{ext}"
+        # public_id = f"documents/{self.request.user.id}_{int(time.time())}{ext}"
+
+        filename_base = f"{self.request.user.id}_{int(time.time())}"
+        public_id = f"documents/{filename_base}"  # sans extension ici
 
         # Upload Cloudinary
         # result = upload(document, resource_type="raw", folder="documents/", access_mode="public")
         result = upload(document, resource_type="raw", public_id=public_id, access_mode="public")
         file_url = result.get("secure_url")
+
+
 
         if not file_url:
             raise ValidationError({"document": "Échec de l'envoi à Cloudinary."})
