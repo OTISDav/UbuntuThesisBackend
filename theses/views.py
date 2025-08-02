@@ -12,7 +12,7 @@ from django.core.exceptions import ValidationError
 from rest_framework.parsers import MultiPartParser
 from cloudinary.uploader import upload
 from django.shortcuts import get_object_or_404, redirect
-
+import time
 import os
 
 
@@ -31,8 +31,13 @@ class ThesisViewSet(viewsets.ModelViewSet):
         if not document:
             raise ValidationError({"document": "Aucun fichier PDF reçu."})
 
+        ext = os.path.splitext(document.name)[1]  # ex: '.pdf', '.docx'
+        # Générer un nom unique, ici avec timestamp et user id (personnalise comme tu veux)
+        public_id = f"documents/{self.request.user.id}_{int(time.time())}{ext}"
+
         # Upload Cloudinary
-        result = upload(document, resource_type="raw", folder="documents/", access_mode="public")
+        # result = upload(document, resource_type="raw", folder="documents/", access_mode="public")
+        result = upload(document, resource_type="raw", public_id=public_id, access_mode="public")
         file_url = result.get("secure_url")
 
         if not file_url:
