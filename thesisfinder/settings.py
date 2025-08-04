@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Paramètres de développement rapides - non adaptés pour la production
 SECRET_KEY = config('SECRET_KEY')  # Utiliser la clé secrète à partir de la variable d'environnement
-DEBUG = True  # À changer en False en production
+DEBUG = False  # À changer en False en production
 
 ALLOWED_HOSTS = [
     "ubuntuthesisbackend.onrender.com",
