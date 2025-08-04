@@ -11,7 +11,6 @@ from .views import (
 )
 
 urlpatterns = [
-    path('api/auth/', include('dj_rest_auth.urls')),
     path('auth/activate/', AccountActivationView.as_view(), name='account-activate'),
     path('auth/register/', RegisterView.as_view(), name='register'),
     path('auth/login/', LoginView.as_view(), name='login'),
