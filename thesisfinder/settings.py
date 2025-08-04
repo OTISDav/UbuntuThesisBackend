@@ -1,8 +1,3 @@
-"""
-Paramètres Django pour le projet thesisfinder.
-Généré par 'django-admin startproject' utilisant Django 5.1.5.
-"""
-
 import os
 from pathlib import Path
 from decouple import config
@@ -41,6 +36,12 @@ INSTALLED_APPS = [
     'theses',
     'documents',
     'corsheaders',
+
+    'django.contrib.sites',  # obligatoire pour allauth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -118,6 +119,33 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'davidbotcholi2003@gmail.com'          # ton email gmail
+EMAIL_HOST_PASSWORD = 'tlbzo ltcv dooz wwwk'     # mot de passe d'application (à créer dans Google)
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+SITE_ID = 1
+
+REST_USE_JWT = True  # si tu utilises JWT
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',  # backend standard
+    'allauth.account.auth_backends.AuthenticationBackend',  # allauth
+)
+
+# Configuration allauth
+ACCOUNT_EMAIL_VERIFICATION = 'none'  # ou 'mandatory' si tu veux
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_EMAIL_REQUIRED = True
+
+
 
 
 cloudinary.config(
