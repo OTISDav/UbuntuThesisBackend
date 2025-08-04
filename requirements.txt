@@ -37,5 +37,6 @@ django-cors-headers
 cloudinary
 django-cloudinary-storage
 Pillow
+django-allauth
 
 
