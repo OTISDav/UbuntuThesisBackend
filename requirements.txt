@@ -39,6 +39,7 @@ django-cloudinary-storage
 Pillow
 django-allauth
 cryptography
+dj-rest-auth
 
 
 
