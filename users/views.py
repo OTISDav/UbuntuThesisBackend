@@ -145,38 +145,85 @@ class UpdateProfileView(APIView):
 
 User = get_user_model()
 
+# class AccountActivationView(APIView):
+#     permission_classes = []
+#
+#     def get(self, request):
+#         token = request.query_params.get('token')
+#         if not token:
+#             return render(request, 'activation_result.html', {'message': "Token manquant."})
+#
+#         try:
+#             payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
+#
+#             if payload.get('type') != 'email_verification':
+#                 return render(request, 'activation_result.html', {'message': "Token invalide."})
+#
+#             if payload.get('exp') < timezone.now().timestamp():
+#                 return render(request, 'activation_result.html', {'message': "Lien expiré."})
+#
+#             user_id = payload.get('user_id')
+#             user = User.objects.get(id=user_id)
+#
+#             if user.is_verified and user.is_active:
+#                 return render(request, 'activation_result.html', {'message': "Compte déjà activé."})
+#
+#             user.is_verified = True
+#             user.is_active = True
+#             user.save()
+#
+#             return render(request, 'activation_result.html', {'message': "Compte activé, vous pouvez vous connecter."})
+#
+#         except jwt.ExpiredSignatureError:
+#             return render(request, 'activation_result.html', {'message': "Lien expiré."})
+#         except jwt.InvalidTokenError:
+#             return render(request, 'activation_result.html', {'message': "Token invalide."})
+#         except User.DoesNotExist:
+#             return render(request, 'activation_result.html', {'message': "Utilisateur introuvable."})
+
+
+
 class AccountActivationView(APIView):
     permission_classes = []
 
     def get(self, request):
         token = request.query_params.get('token')
+        context = {}
+
         if not token:
-            return render(request, 'activation_result.html', {'message': "Token manquant."})
+            context['message'] = "Token manquant."
+            return render(request, 'users/activation_result.html', context)
 
         try:
             payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
 
             if payload.get('type') != 'email_verification':
-                return render(request, 'activation_result.html', {'message': "Token invalide."})
+                context['message'] = "Token invalide."
+                return render(request, 'users/activation_result.html', context)
 
             if payload.get('exp') < timezone.now().timestamp():
-                return render(request, 'activation_result.html', {'message': "Lien expiré."})
+                context['message'] = "Lien expiré."
+                return render(request, 'users/activation_result.html', context)
 
             user_id = payload.get('user_id')
             user = User.objects.get(id=user_id)
 
             if user.is_verified and user.is_active:
-                return render(request, 'activation_result.html', {'message': "Compte déjà activé."})
+                context['message'] = "Compte déjà activé."
+                return render(request, 'users/activation_result.html', context)
 
             user.is_verified = True
             user.is_active = True
             user.save()
 
-            return render(request, 'activation_result.html', {'message': "Compte activé, vous pouvez vous connecter."})
+            context['message'] = "Compte activé, vous pouvez vous connecter."
+            return render(request, 'users/activation_result.html', context)
 
         except jwt.ExpiredSignatureError:
-            return render(request, 'activation_result.html', {'message': "Lien expiré."})
+            context['message'] = "Lien expiré."
         except jwt.InvalidTokenError:
-            return render(request, 'activation_result.html', {'message': "Token invalide."})
+            context['message'] = "Token invalide."
         except User.DoesNotExist:
-            return render(request, 'activation_result.html', {'message': "Utilisateur introuvable."})
+            context['message'] = "Utilisateur introuvable."
+
+        return render(request, 'users/activation_result.html', context)
