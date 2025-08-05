@@ -11,7 +11,7 @@ def send_verification_email(user, frontend_url):
         'type': 'email_verification'
     }
     token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
-    activation_link = f"{frontend_url}/activate?token={token}"
+    activation_link = f"{frontend_url}/activate/?token={token}"
 
     subject = 'Activez votre compte'
     message = f"""
