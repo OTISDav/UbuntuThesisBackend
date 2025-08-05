@@ -131,7 +131,7 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'ddavidotis@gmail.com'          # ton email gmail
 EMAIL_HOST_PASSWORD = 'zylj yffd lvni rspu'     # mot de passe d'application (à créer dans Google)
-DEFAULT_FROM_EMAIL = 'Pret <ddavidotis@gmail.com>'  # L'adresse d'envoi visible pour les destinataires
+DEFAULT_FROM_EMAIL = 'THESE <ddavidotis@gmail.com>'  # L'adresse d'envoi visible pour les destinataires
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
 
