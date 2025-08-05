@@ -129,9 +129,12 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'davidbotcholi2003@gmail.com'          # ton email gmail
-EMAIL_HOST_PASSWORD = 'tlbzo ltcv dooz wwwk'     # mot de passe d'application (à créer dans Google)
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_HOST_USER = 'ddavidotis@gmail.com'          # ton email gmail
+EMAIL_HOST_PASSWORD = 'zylj yffd lvni rspu'     # mot de passe d'application (à créer dans Google)
+DEFAULT_FROM_EMAIL = 'Pret <ddavidotis@gmail.com>'  # L'adresse d'envoi visible pour les destinataires
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+
+
 
 
 
@@ -166,7 +169,7 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'  # ou 'mandatory' si tu veux
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
 
-FRONTEND_URL = 'ubuntuthesisbackend.onrender.com/api/users'
+FRONTEND_URL = "http://localhost:3000"
 
 
 cloudinary.config(
