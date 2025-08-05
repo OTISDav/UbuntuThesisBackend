@@ -134,7 +134,7 @@ EMAIL_HOST_USER = 'davidbotcholi2003@gmail.com'          # ton email gmail
 EMAIL_HOST_PASSWORD = 'tlbzo ltcv dooz wwwk'     # mot de passe d'application (à créer dans Google)
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-FRONTEND_URL = 'http://localhost:3000'  # ou ton URL frontend React/Flutter
+
 
 EMAIL_USE_LOCALTIME = True
 LOGGING = {
@@ -167,7 +167,7 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'  # ou 'mandatory' si tu veux
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
 
-
+FRONTEND_URL = 'ubuntuthesisbackend.onrender.com/api/users'
 
 
 cloudinary.config(
