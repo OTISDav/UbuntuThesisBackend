@@ -11,15 +11,23 @@ def send_verification_email(user, frontend_url):
         'type': 'email_verification'
     }
     token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
+
     activation_link = f"{frontend_url}/activate/?token={token}"
 
+    ici = {activation_link}
     subject = 'Activez votre compte'
     message = f"""
     Bonjour {user.username},
 
     Merci de vous être inscrit. Veuillez cliquer sur le lien ci-dessous pour activer votre compte :
 
-    {activation_link}
+    # {activation_link}
+    
+        <p>
+            <a href="{activation_link}" style="padding: 10px 15px; background-color: #00A8AA; color: white; text-decoration: none; border-radius: 5px;">
+                Cliquez ici pour activer votre compte
+            </a>
+        </p>
 
     Ce lien expirera dans 24 heures.
 
