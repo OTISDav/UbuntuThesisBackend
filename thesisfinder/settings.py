@@ -123,7 +123,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
