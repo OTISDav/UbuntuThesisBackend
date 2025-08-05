@@ -123,6 +123,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -132,6 +133,24 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'davidbotcholi2003@gmail.com'          # ton email gmail
 EMAIL_HOST_PASSWORD = 'tlbzo ltcv dooz wwwk'     # mot de passe d'application (à créer dans Google)
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+FRONTEND_URL = 'http://localhost:3000'  # ou ton URL frontend React/Flutter
+
+EMAIL_USE_LOCALTIME = True
+LOGGING = {
+    'version': 1,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django.mail': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+    },
+}
 
 
 SITE_ID = 1
