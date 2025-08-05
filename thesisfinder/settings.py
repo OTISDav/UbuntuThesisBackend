@@ -169,7 +169,7 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'  # ou 'mandatory' si tu veux
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
 
-FRONTEND_URL = "http://localhost:3000"
+FRONTEND_URL = "https://ubuntuthesisbackend.onrender.com/api/auth/activate/"
 
 
 cloudinary.config(
