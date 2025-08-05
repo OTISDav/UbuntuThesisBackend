@@ -1,4 +1,5 @@
 from rest_framework import status
+from django.shortcuts import render
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate, update_session_auth_hash
@@ -144,41 +145,38 @@ class UpdateProfileView(APIView):
 
 User = get_user_model()
 
-
 class AccountActivationView(APIView):
-    permission_classes = []  # accès public
+    permission_classes = []
 
     def get(self, request):
         token = request.query_params.get('token')
         if not token:
-            return Response({"detail": "Token manquant."}, status=status.HTTP_400_BAD_REQUEST)
+            return render(request, 'activation_result.html', {'message': "Token manquant."})
 
         try:
             payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
 
-            # Vérifie le type de token
             if payload.get('type') != 'email_verification':
-                return Response({"detail": "Token invalide."}, status=status.HTTP_400_BAD_REQUEST)
+                return render(request, 'activation_result.html', {'message': "Token invalide."})
 
-            # Vérifie expiration
             if payload.get('exp') < timezone.now().timestamp():
-                return Response({"detail": "Lien expiré."}, status=status.HTTP_400_BAD_REQUEST)
+                return render(request, 'activation_result.html', {'message': "Lien expiré."})
 
             user_id = payload.get('user_id')
             user = User.objects.get(id=user_id)
 
             if user.is_verified and user.is_active:
-                return Response({"detail": "Compte déjà activé."}, status=status.HTTP_200_OK)
+                return render(request, 'activation_result.html', {'message': "Compte déjà activé."})
 
             user.is_verified = True
             user.is_active = True
             user.save()
 
-            return Response({"detail": "Compte activé, vous pouvez vous connecter."}, status=status.HTTP_200_OK)
+            return render(request, 'activation_result.html', {'message': "Compte activé, vous pouvez vous connecter."})
 
         except jwt.ExpiredSignatureError:
-            return Response({"detail": "Lien expiré."}, status=status.HTTP_400_BAD_REQUEST)
+            return render(request, 'activation_result.html', {'message': "Lien expiré."})
         except jwt.InvalidTokenError:
-            return Response({"detail": "Token invalide."}, status=status.HTTP_400_BAD_REQUEST)
+            return render(request, 'activation_result.html', {'message': "Token invalide."})
         except User.DoesNotExist:
-            return Response({"detail": "Utilisateur introuvable."}, status=status.HTTP_404_NOT_FOUND)
+            return render(request, 'activation_result.html', {'message': "Utilisateur introuvable."})
