@@ -230,15 +230,10 @@ class AccountActivationView(APIView):
         return render(request, 'users/activation_result.html', context)
 
 
-from django_rest_passwordreset.views import ResetPasswordRequestToken, ResetPasswordConfirm
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
 
-@method_decorator(csrf_exempt, name='dispatch')
-class CsrfExemptResetPasswordRequestToken(ResetPasswordRequestToken):
-    pass
 
-@method_decorator(csrf_exempt, name='dispatch')
-class CsrfExemptResetPasswordConfirm(ResetPasswordConfirm):
-    pass
+from django.shortcuts import render
+
+def reset_password_page(request):
+    return render(request, 'reset_password.html')
 
