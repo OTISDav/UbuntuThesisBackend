@@ -93,12 +93,12 @@ def send_verification_email(user, frontend_url):
 from django.dispatch import receiver
 
 @receiver(reset_password_token_created)
-def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
+def password_reset_token_created(sender,frontend_url, instance, reset_password_token, *args, **kwargs):
     user = reset_password_token.user
     token = reset_password_token.key
-    frontend_url = "http://ton-frontend-url"  # adapte ici
 
-    reset_link = f"{frontend_url}/reset-password?token={token}"
+
+    reset_link = f"{frontend_url}/reset-password/?token={token}"
 
     subject = "Réinitialisation de votre mot de passe"
     text_content = f"Bonjour {user.username},\nPour réinitialiser votre mot de passe, cliquez sur ce lien : {reset_link}"
