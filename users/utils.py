@@ -97,7 +97,7 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
     user = reset_password_token.user
     token = reset_password_token.key
 
-    frontend_url = "https://ubuntuthesisbackend.onrender.com/"  # 🔁 change avec ton vrai URL front
+    frontend_url = "https://ubuntuthesisbackend.onrender.com"  # 🔁 change avec ton vrai URL front
 
 
     reset_link = f"{frontend_url}/reset-password/?token={token}"
