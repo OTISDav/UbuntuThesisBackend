@@ -234,6 +234,9 @@ class AccountActivationView(APIView):
 
 from django.shortcuts import render
 
-def reset_password_page(request):
-    return render(request, 'reset_password.html')
+# def reset_password_page(request):
+#     return render(request, 'reset_password.html')
 
+def reset_password_page(request):
+    token = request.GET.get('token', '')  # récupère le token de l'URL
+    return render(request, 'reset_password.html', {'token': token})
