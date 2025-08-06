@@ -1,8 +1,4 @@
-from django.urls import path, include
-from django.contrib.auth import views as auth_views
-from django.views.decorators.csrf import csrf_exempt
-
-
+from django.urls import path
 from .views import (
     RegisterView,
     LoginView,
@@ -12,14 +8,9 @@ from .views import (
     ChangePasswordView,
     UpdateProfileView,
     AccountActivationView,
-    CsrfExemptResetPasswordRequestToken,
-    CsrfExemptResetPasswordConfirm
 )
 
-
 urlpatterns = [
-    path('password_reset/', CsrfExemptResetPasswordRequestToken.as_view(), name='password_reset'),
-    path('password_reset/confirm/', CsrfExemptResetPasswordConfirm.as_view(), name='password_reset_confirm'),
     path('auth/activate/', AccountActivationView.as_view(), name='account-activate'),
     path('auth/register/', RegisterView.as_view(), name='register'),
     path('auth/login/', LoginView.as_view(), name='login'),
