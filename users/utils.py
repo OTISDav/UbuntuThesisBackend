@@ -49,6 +49,8 @@ import datetime
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.utils import timezone
+from django_rest_passwordreset.signals import reset_password_token_created
+
 
 def send_verification_email(user, frontend_url):
     payload = {
@@ -88,3 +90,35 @@ def send_verification_email(user, frontend_url):
     email.attach_alternative(html_content, "text/html")
     email.send()
 
+from django.dispatch import receiver
+
+@receiver(reset_password_token_created)
+def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
+    user = reset_password_token.user
+    token = reset_password_token.key
+    frontend_url = "http://ton-frontend-url"  # adapte ici
+
+    reset_link = f"{frontend_url}/reset-password?token={token}"
+
+    subject = "Réinitialisation de votre mot de passe"
+    text_content = f"Bonjour {user.username},\nPour réinitialiser votre mot de passe, cliquez sur ce lien : {reset_link}"
+    html_content = f"""
+        <p>Bonjour {user.username},</p>
+        <p>Vous avez demandé la réinitialisation de votre mot de passe.</p>
+        <p>
+            <a href="{reset_link}" style="padding:10px 15px; background:#00A8AA; color:#fff; text-decoration:none; border-radius:5px;">
+                Réinitialiser mon mot de passe
+            </a>
+        </p>
+        <p>Si vous n'avez pas demandé cette réinitialisation, ignorez cet email.</p>
+        <p>Cordialement,<br>L'équipe de votre application.</p>
+    """
+
+    email = EmailMultiAlternatives(
+        subject,
+        text_content,
+        settings.DEFAULT_FROM_EMAIL,
+        [user.email],
+    )
+    email.attach_alternative(html_content, "text/html")
+    email.send()
