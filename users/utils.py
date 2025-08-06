@@ -93,9 +93,11 @@ def send_verification_email(user, frontend_url):
 from django.dispatch import receiver
 
 @receiver(reset_password_token_created)
-def password_reset_token_created(sender,frontend_url, instance, reset_password_token, *args, **kwargs):
+def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
     user = reset_password_token.user
     token = reset_password_token.key
+
+    frontend_url = "https://ubuntuthesisbackend.onrender.com"  # 🔁 change avec ton vrai URL front
 
 
     reset_link = f"{frontend_url}/reset-password/?token={token}"
