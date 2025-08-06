@@ -228,3 +228,9 @@ class AccountActivationView(APIView):
             context['message'] = "Utilisateur introuvable."
 
         return render(request, 'users/activation_result.html', context)
+
+
+from django.shortcuts import render
+
+def reset_password_page(request):
+    return render(request, 'reset_password.html')
