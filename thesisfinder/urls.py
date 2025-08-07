@@ -5,6 +5,7 @@ from drf_yasg import openapi
 from rest_framework.permissions import AllowAny
 from django.conf import settings
 from django.conf.urls.static import static
+from django_rest_passwordreset.views import reset_password_confirm
 from users.views import reset_password_page  # ta vue qui rend le template
 
 
@@ -22,6 +23,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/password_reset/confirm/', reset_password_confirm, name='password_reset_confirm'),
     path('api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
     path('reset-password/', reset_password_page, name='reset_password_page'),
     path('api/auth/', include('dj_rest_auth.urls')),
