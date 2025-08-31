@@ -9,6 +9,12 @@ from django_rest_passwordreset.views import reset_password_confirm
 from users.views import reset_password_page  # ta vue qui rend le template
 
 
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
+
+
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -27,6 +33,7 @@ urlpatterns = [
     path('api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
     path('reset-password/', reset_password_page, name='reset_password_page'),
     path('api/auth/', include('dj_rest_auth.urls')),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),  # refresh token
     path('api/users/', include('users.urls')),
     path('api/theses/', include('theses.urls')),
     path('documents/', include('documents.urls')),
