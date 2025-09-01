@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'theses',
     'documents',
     'corsheaders',
+    'notifications',
+    'push_notifications',
 
     'django.contrib.sites',  # obligatoire pour allauth
     'allauth',
@@ -103,6 +105,11 @@ SIMPLE_JWT = {
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
     'AUTH_HEADER_TYPES': ('Bearer',),
+}
+
+
+FCM_DJANGO_SETTINGS = {
+    "FCM_SERVER_KEY": "BP6VFaIC3NMkc_7UlwkN5j6JTwXhZNVOND73ZO2-V0HuN8INi8YotRdf3Msp5m45C3qlRrpn3lc-7lJ0dxjoMpA",
 }
 
 

@@ -41,6 +41,7 @@ django-allauth
 cryptography
 dj-rest-auth
 django-rest-passwordreset
+push_notifications
 
 
 
