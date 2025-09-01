@@ -39,15 +39,10 @@ class AnnotationSerializer(serializers.ModelSerializer):
         fields = '__all__'
         extra_kwargs = {'user': {'read_only': True}}  # 🔹 Ne pas exiger que l'utilisateur soit envoyé
 
-# serializers.py
-# class ThesisSerializer(serializers.ModelSerializer):
-#     download_url = serializers.SerializerMethodField()
-#
-#     class Meta:
-#         model = Thesis
-#         fields = '__all__'  # ou fais une liste explicite
-#         # fields = ['id', 'title', 'resume', 'file', ... 'download_url']
-#
-#     def get_download_url(self, obj):
-#         request = self.context.get('request')
-#         return request.build_absolute_uri(f'/api/thesis/download/{obj.id}/')
+from rest_framework import serializers
+from .models import SavedSearch
+
+class SavedSearchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SavedSearch
+        fields = ['id', 'name', 'query_params', 'created_at', 'updated_at']

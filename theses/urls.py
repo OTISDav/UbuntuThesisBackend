@@ -6,12 +6,15 @@ from .views import (
     AnnotationViewSet,
     SuggestionsView,
     ThesisDownloadView,
+    SavedSearchViewSet,
 )
 
 router = DefaultRouter()
 router.register(r'theses', ThesisViewSet, basename='thesis')
 router.register(r'favorites', FavoriteViewSet, basename='favorite')
 router.register(r'annotations', AnnotationViewSet, basename='annotation')
+router.register(r'saved-searches', SavedSearchViewSet, basename='savedsearch')
+
 
 urlpatterns = [
     path('', include(router.urls)),

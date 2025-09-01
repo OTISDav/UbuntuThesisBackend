@@ -34,3 +34,15 @@ class Annotation(models.Model):
     thesis = models.ForeignKey('Thesis', on_delete=models.CASCADE)
     note = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class SavedSearch(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  # Utilisateur propriétaire
+    name = models.CharField(max_length=255)  # Nom donné à la recherche sauvegardée
+    query_params = models.JSONField()  # Les filtres et paramètres de recherche stockés en JSON
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.name} - {self.user.username}"
+
