@@ -42,7 +42,7 @@ cryptography
 dj-rest-auth
 django-rest-passwordreset
 django-push-notifications>=3.0.0
-
+fcm_django
 
 
 
