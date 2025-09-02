@@ -11,3 +11,11 @@ class Notification(models.Model):
 
     def __str__(self):
         return f"Notification to {self.user.username}: {self.message[:20]}"
+
+import uuid
+from django.db import models
+from fcm_django.models import AbstractFCMDevice
+
+class CustomFCMDevice(AbstractFCMDevice):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    updated_at = models.DateTimeField(auto_now=True)

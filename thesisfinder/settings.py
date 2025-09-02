@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'notifications',
     'push_notifications',
+    'fcm_django',
 
     'django.contrib.sites',  # obligatoire pour allauth
     'allauth',
@@ -84,6 +85,7 @@ TEMPLATES = [
     },
 ]
 
+FCM_DJANGO_FCMDEVICE_MODEL = "notifications.CustomFCMDevice"
 WSGI_APPLICATION = 'thesisfinder.wsgi.application'
 AUTH_USER_MODEL = 'users.CustomUser'
 
